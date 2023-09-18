@@ -1,0 +1,55 @@
+version: "3.9"
+services:
+  mongodb:
+    image: 'mongo:latest'
+    environment:
+      - 'MONGO_INITDB_DATABASE=mydatabase'
+      - 'MONGO_INITDB_ROOT_PASSWORD=secret'
+      - 'MONGO_INITDB_ROOT_USERNAME=root'
+    ports:
+      - '27017'
+    networks:
+      - app-network
+    volumes:
+      - ./database:/data/db
+
+  backend:
+    build: ./backend
+    depends_on:
+      - mongodb
+    networks:
+      - app-network
+    ports:
+      - "7787:7787"
+  curler:
+    image: curlimages/curl
+    depends_on:
+      - backend
+    networks:
+      - app-network
+    volumes:
+      - "${PWD}:/local"
+    command: sh -c 'curl http://backend:7787/v3/api-docs > /local/openapi.json'
+  generator:
+    image: openapitools/openapi-generator-cli
+    networks:
+      - app-network
+    depends_on:
+      - backend
+    volumes:
+      - "${PWD}:/local"
+    command: generate -i http://backend:7787/v3/api-docs -g javascript -o /local/frontend/todoclient --additional-properties usePromises=true,emitModelMethods=true,projectName=todoclient,projectVersion=0.5.1
+  frontend:
+    build: 
+      context: ./frontend
+      args:
+        backend_url: backend
+    depends_on:
+      - generator
+    networks:
+      - app-network
+    ports:
+      - "3000:3000"
+networks:
+  app-network:
+    driver: host
