@@ -1,0 +1,346 @@
+---
+openapi: 3.0.1
+info:
+  title: OpenAPI definition
+  version: v0
+servers:
+  - url: http://localhost:7787
+    description: Generated server url
+paths:
+  "/api/todos":
+    post:
+      tags:
+        - todo-controller
+      operationId: createTodo
+      parameters:
+        - name: id
+          in: query
+          required: false
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/Todo"
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/Todo"
+  "/api/todos/title/{title}":
+    get:
+      tags:
+        - todo-controller
+      operationId: getTodosByTitle
+      parameters:
+        - name: title
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: pageable
+          in: query
+          required: true
+          schema:
+            "$ref": "#/components/schemas/Pageable"
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/PageTodo"
+  "/api/todos/tag/{tag}":
+    get:
+      tags:
+        - todo-controller
+      operationId: getTodosByTagsContains
+      parameters:
+        - name: tag
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: pageable
+          in: query
+          required: true
+          schema:
+            "$ref": "#/components/schemas/Pageable"
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/PageTodo"
+  "/api/todos/priority/{priority}":
+    get:
+      tags:
+        - todo-controller
+      operationId: getTodosByPriority
+      parameters:
+        - name: priority
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - name: pageable
+          in: query
+          required: true
+          schema:
+            "$ref": "#/components/schemas/Pageable"
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/PageTodo"
+  "/api/todos/":
+    get:
+      tags:
+        - todo-controller
+      operationId: listTodos
+      parameters:
+        - name: page
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int32
+            default: 0
+        - name: size
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int32
+            default: 20
+      responses:
+        '200':
+          description: OK
+          content:
+            "*/*":
+              schema:
+                "$ref": "#/components/schemas/PageTodo"
+  "/api/todos/{id}":
+    delete:
+      tags:
+        - todo-controller
+      operationId: deleteTodo
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+components:
+  schemas:
+    Todo:
+      required:
+        - completed
+        - context
+        - creationDate
+        - note
+        - priority
+        - title
+        - user
+      type: object
+      properties:
+        assignedTo:
+          maxItems: 4
+          minItems: 0
+          type: array
+          items:
+            type: string
+        attachment:
+          maxItems: 4
+          minItems: 0
+          type: array
+          items:
+            type: string
+        completed:
+          type: boolean
+        completionDate:
+          maxLength: 32
+          minLength: 0
+          type: string
+        context:
+          maxLength: 255
+          minLength: 1
+          type: string
+        creationDate:
+          maxLength: 32
+          minLength: 0
+          type: string
+        description:
+          maxLength: 1000
+          minLength: 0
+          type: string
+        due:
+          type: string
+        estimate:
+          maximum: 9999
+          minimum: 0
+          type: integer
+          format: int32
+        id:
+          type: string
+        images:
+          maxItems: 4
+          minItems: 0
+          type: array
+          items:
+            type: string
+        importance:
+          type: string
+          enum:
+            - LOW
+            - MEDIUM
+            - HIGH
+        inProgress:
+          type: boolean
+        note:
+          maxLength: 200
+          minLength: 5
+          type: string
+        priority:
+          maximum: 4
+          minimum: 0
+          type: integer
+          format: int32
+        project:
+          maxItems: 10
+          minItems: 0
+          type: array
+          items:
+            type: string
+        references:
+          maxItems: 4
+          minItems: 0
+          type: array
+          items:
+            type: string
+        related:
+          maxItems: 4
+          minItems: 0
+          type: array
+          items:
+            type: string
+        repeat:
+          pattern: "^(\\*|[0-9]+[hdm])+$"
+          type: string
+        share:
+          maxItems: 4
+          minItems: 0
+          type: array
+          items:
+            type: string
+        significance:
+          type: string
+          enum:
+            - LOW
+            - MEDIUM
+            - HIGH
+        tags:
+          maxItems: 10
+          minItems: 0
+          type: array
+          items:
+            type: string
+        title:
+          maxLength: 255
+          minLength: 1
+          type: string
+        urgence:
+          type: string
+          enum:
+            - LOW
+            - MEDIUM
+            - HIGH
+        user:
+          maxLength: 255
+          minLength: 1
+          type: string
+    Pageable:
+      type: object
+      properties:
+        page:
+          minimum: 0
+          type: integer
+          format: int32
+        size:
+          minimum: 1
+          type: integer
+          format: int32
+        sort:
+          type: array
+          items:
+            type: string
+    PageTodo:
+      type: object
+      properties:
+        totalPages:
+          type: integer
+          format: int32
+        totalElements:
+          type: integer
+          format: int64
+        first:
+          type: boolean
+        last:
+          type: boolean
+        size:
+          type: integer
+          format: int32
+        content:
+          type: array
+          items:
+            "$ref": "#/components/schemas/Todo"
+        number:
+          type: integer
+          format: int32
+        sort:
+          "$ref": "#/components/schemas/SortObject"
+        pageable:
+          "$ref": "#/components/schemas/PageableObject"
+        numberOfElements:
+          type: integer
+          format: int32
+        empty:
+          type: boolean
+    PageableObject:
+      type: object
+      properties:
+        offset:
+          type: integer
+          format: int64
+        sort:
+          "$ref": "#/components/schemas/SortObject"
+        paged:
+          type: boolean
+        unpaged:
+          type: boolean
+        pageNumber:
+          type: integer
+          format: int32
+        pageSize:
+          type: integer
+          format: int32
+    SortObject:
+      type: object
+      properties:
+        empty:
+          type: boolean
+        unsorted:
+          type: boolean
+        sorted:
+          type: boolean
