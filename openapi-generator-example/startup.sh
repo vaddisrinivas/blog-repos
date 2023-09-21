@@ -63,20 +63,59 @@ validate "${GENERATOR_SERVICE}" "generator service name"
 validate "${DEBUG}" "debug flag"
 validate "${LOG_FILE}" "log file name"
 
+# Run and start the mongodb service
+log "INFO" "Running and starting the mongodb service"
+retry docker-compose up -d mongodb
+sleep 5
+
+# Check if the mongodb container is running
+if [ -z "$(docker-compose ps --status=running mongodb)" ]; then
+  log "ERROR" "The mongodb container is not running."
+  exit 1
+fi
+
 # Build and run the backend image with docker-compose
 log "INFO" "Building and running the backend image with docker-compose"
 retry docker-compose build "${BACKEND_IMAGE}" && docker-compose up -d "${BACKEND_IMAGE}"
+sleep 5
+
+# Check if the backend container is running
+if [ -z "$(docker-compose ps --status=running backend)" ]; then
+  log "ERROR" "The backend container is not running."
+  exit 1
+fi
 
 # Run the curler service with docker-compose
 log "INFO" "Running the curler service with docker-compose"
 retry docker-compose up "${CURLER_SERVICE}"
+sleep 5
+
+# Check if the curler container is running
+if [ -z "$(docker-compose ps --status=running curler)" ]; then
+  log "ERROR" "The curler container is not running."
+  exit 1
+fi
 
 # Run the generator service with docker-compose
 log "INFO" "Running the generator service with docker-compose"
 retry docker-compose up "${GENERATOR_SERVICE}"
+sleep 5
+
+# Check if the generator container is running
+if [ -z "$(docker-compose ps --status=running generator)" ]; then
+  log "ERROR" "The generator container is not running."
+  exit 1
+fi
 
 # Build and run the frontend image with docker-compose
 log "INFO" "Building and running the frontend image with docker-compose"
 retry docker-compose build "${FRONTEND_IMAGE}" && docker-compose up -d "${FRONTEND_IMAGE}"
+sleep 5
+
+# Check if the frontend container is running
+if [ -z "$(docker-compose ps --status=running frontend)" ]; then
+  log "ERROR" "The frontend container is not running."
+  exit 1
+fi
 
 log "INFO" "The script has completed successfully."

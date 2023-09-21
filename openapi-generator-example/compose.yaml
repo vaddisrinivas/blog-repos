@@ -52,4 +52,4 @@ services:
       - "3000:3000"
 networks:
   app-network:
-    driver: host
+    driver: bridge
