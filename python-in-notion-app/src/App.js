@@ -98,23 +98,7 @@ export default function Home() {
           }}
           variant="h3"
         >
-          {isIframe ? '' : 'Python in your browser!'}
-        </Typography>
-      ) || (
-        <Typography
-          style={{
-            textAlign: 'center',
-            width: '70%',
-            paddingLeft: '5%',
-            marginLeft: '10%',
-            paddingRight: '5%',
-            marginRight: '10%',
-            paddingTop: '2%',
-            marginTop: '3%',
-          }}
-          variant="h6"
-        >
-          Run Python in an iFrame
+           'Python in your browser!'
         </Typography>
       )}
       <div
@@ -138,9 +122,7 @@ export default function Home() {
         <br></br>
         <Typography variant="h6">Snippet : </Typography>
         <br></br>
-        <br></br>
         <CodeEditor code={code} onCodeChange={setCode} />
-
         <br></br>
         {needsPython && touched && (
           <Button variant="text" onClick={setOp}>
@@ -148,20 +130,15 @@ export default function Home() {
           </Button>
         )}
         <br></br>
+        {codeOutput !== undefined && !codeOutput.toString().includes('data:image/png') && (
+          <OutputDisplay codeOutput={codeOutput} />
+        )}
         
-        <div>
-          {codeOutput !== undefined && !codeOutput.toString().includes('data:image/png') && (
-            <OutputDisplay codeOutput={codeOutput} />
-          )}
-        </div>
-        <br></br>
-        <br></br>
-        <FormControlLabel
+        {!isIframe && (<><br></br><FormControlLabel
           control={<Checkbox checked={runPython} onChange={handleChangePy} name="antoine" />}
-          label={label}
-        />
+          label={label} /></>)}
         <br></br>
-        {needsPython && (
+        {!isIframe && (
           <Button
             onClick={() => { navigator.clipboard.writeText(window.location.protocol + "//" + window.location.host + "/" + generate(code,codeOutput)); setGenerateLink(true); }}
           >
