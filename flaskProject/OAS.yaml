@@ -1,0 +1,82 @@
+openapi: 3.0.0
+info:
+  title: File Comparison API
+  description: This API allows users to upload files and compare their differences.
+  version: 1.0.0
+servers:
+  - url: https://example.com/api
+paths:
+  /upload:
+    post:
+      summary: Upload a file
+      description: Accepts a file and saves it to the database.
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+                  description: The file to be uploaded.
+                metadata:
+                  type: object
+                  description: The JSON body metadata for the file.
+      responses:
+        '201':
+          description: File uploaded successfully.
+          headers:
+            Location:
+              schema:
+                type: string
+              description: The URL of the uploaded file.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  file_id:
+                    type: string
+                    format: uuid
+                    description: The unique identifier of the file in the database.
+        '400':
+          description: Bad request. The file or metadata is invalid or missing.
+        '500':
+          description: Internal server error. The file could not be saved to the database.
+  /differences:
+    get:
+      summary: Compare three files
+      description: Accepts three file ids and returns the markers where the files are different.
+      parameters:
+        - name: files
+          in: query
+          required: true
+          schema:
+            type: string
+            pattern: '^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}(,[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}){2}$'
+          description: The comma-separated list of three file ids to be compared.
+      responses:
+        '200':
+          description: Files compared successfully.
+          headers:
+            Content-Disposition:
+              schema:
+                type: string
+              description: The header that indicates the filename of the CSV result.
+          content:
+            text/csv:
+              schema:
+                type: string
+                example: |
+                  File1,File2,File3,Difference
+                  Hello,Hello,Hello,No difference
+                  World,World,Word,Different in File3 at position 5
+              description: The CSV result of the file comparison.
+        '400':
+          description: Bad request. The files parameter is invalid or missing.
+        '404':
+          description: Not found. One or more of the file ids does not exist in the database.
+        '500':
+          description: Internal server error. The files could not be compared or the result could not be saved to the database.
