@@ -1,0 +1,142 @@
+2023-10-11 23:01:17,682 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:2583
+ * Running on http://192.168.1.122:2583
+2023-10-11 23:01:17,682 - INFO - [33mPress CTRL+C to quit[0m
+2023-10-11 23:01:17,682 - INFO -  * Restarting with stat
+2023-10-11 23:01:17,896 - WARNING -  * Debugger is active!
+2023-10-11 23:01:17,902 - INFO -  * Debugger PIN: 191-810-091
+2023-10-11 23:01:24,876 - INFO - 127.0.0.1 - - [11/Oct/2023 23:01:24] "[35m[1mGET /api/upload?file=test2 HTTP/1.1[0m" 500 -
+2023-10-11 23:01:31,430 - INFO - 127.0.0.1 - - [11/Oct/2023 23:01:31] "[35m[1mGET /api/upload?file=test2 HTTP/1.1[0m" 500 -
+2023-10-11 23:01:31,469 - INFO - 127.0.0.1 - - [11/Oct/2023 23:01:31] "GET /api/upload?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+2023-10-11 23:01:31,470 - INFO - 127.0.0.1 - - [11/Oct/2023 23:01:31] "GET /api/upload?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+2023-10-11 23:01:31,526 - INFO - 127.0.0.1 - - [11/Oct/2023 23:01:31] "GET /api/upload?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+2023-10-11 23:01:32,311 - INFO - 127.0.0.1 - - [11/Oct/2023 23:01:32] "[36mGET /api/upload?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 304 -
+2023-10-11 23:01:51,551 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:2583
+ * Running on http://192.168.1.122:2583
+2023-10-11 23:01:51,551 - INFO - [33mPress CTRL+C to quit[0m
+2023-10-11 23:01:51,551 - INFO -  * Restarting with stat
+2023-10-11 23:01:51,741 - WARNING -  * Debugger is active!
+2023-10-11 23:01:51,747 - INFO -  * Debugger PIN: 191-810-091
+2023-10-11 23:01:53,802 - INFO - 127.0.0.1 - - [11/Oct/2023 23:01:53] "[35m[1mGET /api/upload?file=test2 HTTP/1.1[0m" 500 -
+2023-10-11 23:01:53,848 - INFO - 127.0.0.1 - - [11/Oct/2023 23:01:53] "[36mGET /api/upload?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 304 -
+2023-10-11 23:01:53,848 - INFO - 127.0.0.1 - - [11/Oct/2023 23:01:53] "[36mGET /api/upload?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 304 -
+2023-10-11 23:01:53,912 - INFO - 127.0.0.1 - - [11/Oct/2023 23:01:53] "[36mGET /api/upload?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 304 -
+2023-10-11 23:01:54,119 - INFO - 127.0.0.1 - - [11/Oct/2023 23:01:54] "[36mGET /api/upload?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 304 -
+2023-10-11 23:02:03,363 - INFO - 127.0.0.1 - - [11/Oct/2023 23:02:03] "POST /api/upload?file=test2 HTTP/1.1" 200 -
+2023-10-11 23:02:06,725 - INFO - 127.0.0.1 - - [11/Oct/2023 23:02:06] "[35m[1mGET /api/upload?file=test2 HTTP/1.1[0m" 500 -
+2023-10-11 23:02:35,320 - INFO -  * Detected change in '/Users/srinivasvaddi/Desktop/desktop/blog-repos/flaskProject/app.py', reloading
+2023-10-11 23:02:35,408 - INFO -  * Restarting with stat
+2023-10-11 23:02:35,666 - WARNING -  * Debugger is active!
+2023-10-11 23:02:35,671 - INFO -  * Debugger PIN: 191-810-091
+2023-10-11 23:02:40,104 - INFO - 127.0.0.1 - - [11/Oct/2023 23:02:40] "[35m[1mGET /api/upload?id=test2 HTTP/1.1[0m" 500 -
+2023-10-11 23:04:27,978 - INFO -  * Detected change in '/Users/srinivasvaddi/Desktop/desktop/blog-repos/flaskProject/app.py', reloading
+2023-10-11 23:04:28,036 - INFO -  * Restarting with stat
+2023-10-11 23:04:28,308 - WARNING -  * Debugger is active!
+2023-10-11 23:04:28,313 - INFO -  * Debugger PIN: 191-810-091
+2023-10-11 23:04:31,602 - INFO - 127.0.0.1 - - [11/Oct/2023 23:04:31] "[35m[1mGET /api/upload?file=test2 HTTP/1.1[0m" 500 -
+2023-10-11 23:04:31,634 - INFO - 127.0.0.1 - - [11/Oct/2023 23:04:31] "[36mGET /api/upload?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 304 -
+2023-10-11 23:04:31,636 - INFO - 127.0.0.1 - - [11/Oct/2023 23:04:31] "[36mGET /api/upload?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 304 -
+2023-10-11 23:04:31,735 - INFO - 127.0.0.1 - - [11/Oct/2023 23:04:31] "[36mGET /api/upload?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 304 -
+2023-10-11 23:04:32,227 - INFO - 127.0.0.1 - - [11/Oct/2023 23:04:32] "[36mGET /api/upload?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 304 -
+2023-10-11 23:04:35,048 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:2583
+ * Running on http://192.168.1.122:2583
+2023-10-11 23:04:35,048 - INFO - [33mPress CTRL+C to quit[0m
+2023-10-11 23:04:35,049 - INFO -  * Restarting with stat
+2023-10-11 23:04:35,236 - WARNING -  * Debugger is active!
+2023-10-11 23:04:35,241 - INFO -  * Debugger PIN: 191-810-091
+2023-10-11 23:04:37,977 - INFO - 127.0.0.1 - - [11/Oct/2023 23:04:37] "[35m[1mGET /api/upload?file=test2 HTTP/1.1[0m" 500 -
+2023-10-11 23:04:38,015 - INFO - 127.0.0.1 - - [11/Oct/2023 23:04:38] "[36mGET /api/upload?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 304 -
+2023-10-11 23:04:38,030 - INFO - 127.0.0.1 - - [11/Oct/2023 23:04:38] "[36mGET /api/upload?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 304 -
+2023-10-11 23:04:38,080 - INFO - 127.0.0.1 - - [11/Oct/2023 23:04:38] "[36mGET /api/upload?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 304 -
+2023-10-11 23:04:38,268 - INFO - 127.0.0.1 - - [11/Oct/2023 23:04:38] "[36mGET /api/upload?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 304 -
+2023-10-11 23:05:07,111 - INFO - 127.0.0.1 - - [11/Oct/2023 23:05:07] "[35m[1mGET /api/upload?id=test2 HTTP/1.1[0m" 500 -
+2023-10-11 23:05:07,146 - INFO - 127.0.0.1 - - [11/Oct/2023 23:05:07] "[36mGET /api/upload?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 304 -
+2023-10-11 23:05:07,147 - INFO - 127.0.0.1 - - [11/Oct/2023 23:05:07] "[36mGET /api/upload?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 304 -
+2023-10-11 23:05:07,212 - INFO - 127.0.0.1 - - [11/Oct/2023 23:05:07] "[36mGET /api/upload?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 304 -
+2023-10-11 23:06:00,106 - INFO -  * Detected change in '/Users/srinivasvaddi/Desktop/desktop/blog-repos/flaskProject/app.py', reloading
+2023-10-11 23:06:00,156 - INFO -  * Restarting with stat
+2023-10-11 23:06:00,403 - WARNING -  * Debugger is active!
+2023-10-11 23:06:00,411 - INFO -  * Debugger PIN: 191-810-091
+2023-10-11 23:06:06,218 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:2583
+ * Running on http://192.168.1.122:2583
+2023-10-11 23:06:06,218 - INFO - [33mPress CTRL+C to quit[0m
+2023-10-11 23:06:06,218 - INFO -  * Restarting with stat
+2023-10-11 23:06:06,403 - WARNING -  * Debugger is active!
+2023-10-11 23:06:06,408 - INFO -  * Debugger PIN: 191-810-091
+2023-10-11 23:06:19,937 - INFO - 127.0.0.1 - - [11/Oct/2023 23:06:19] "POST /api/upload HTTP/1.1" 200 -
+2023-10-11 23:06:46,867 - INFO - 127.0.0.1 - - [11/Oct/2023 23:06:46] "POST /api/upload?id=test2 HTTP/1.1" 200 -
+2023-10-11 23:06:50,573 - INFO - 127.0.0.1 - - [11/Oct/2023 23:06:50] "[35m[1mGET /api/upload?id=test2 HTTP/1.1[0m" 500 -
+2023-10-11 23:07:41,505 - INFO -  * Detected change in '/Users/srinivasvaddi/Desktop/desktop/blog-repos/flaskProject/app.py', reloading
+2023-10-11 23:07:41,583 - INFO -  * Restarting with stat
+2023-10-11 23:07:41,851 - WARNING -  * Debugger is active!
+2023-10-11 23:07:41,857 - INFO -  * Debugger PIN: 191-810-091
+2023-10-11 23:07:46,314 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:2583
+ * Running on http://192.168.1.122:2583
+2023-10-11 23:07:46,314 - INFO - [33mPress CTRL+C to quit[0m
+2023-10-11 23:07:46,315 - INFO -  * Restarting with stat
+2023-10-11 23:07:46,536 - WARNING -  * Debugger is active!
+2023-10-11 23:07:46,541 - INFO -  * Debugger PIN: 191-810-091
+2023-10-11 23:07:49,637 - INFO - 127.0.0.1 - - [11/Oct/2023 23:07:49] "[35m[1mGET /api/upload?id=test2 HTTP/1.1[0m" 500 -
+2023-10-11 23:11:08,452 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:2583
+ * Running on http://192.168.1.122:2583
+2023-10-11 23:11:08,453 - INFO - [33mPress CTRL+C to quit[0m
+2023-10-11 23:11:08,453 - INFO -  * Restarting with stat
+2023-10-11 23:11:08,643 - WARNING -  * Debugger is active!
+2023-10-11 23:11:08,648 - INFO -  * Debugger PIN: 191-810-091
+2023-10-11 23:11:13,029 - INFO - 127.0.0.1 - - [11/Oct/2023 23:11:13] "[35m[1mGET /api/upload?id=test2 HTTP/1.1[0m" 500 -
+2023-10-11 23:11:13,076 - INFO - 127.0.0.1 - - [11/Oct/2023 23:11:13] "[36mGET /api/upload?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 304 -
+2023-10-11 23:11:13,079 - INFO - 127.0.0.1 - - [11/Oct/2023 23:11:13] "[36mGET /api/upload?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 304 -
+2023-10-11 23:11:13,129 - INFO - 127.0.0.1 - - [11/Oct/2023 23:11:13] "[36mGET /api/upload?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 304 -
+2023-10-11 23:11:13,359 - INFO - 127.0.0.1 - - [11/Oct/2023 23:11:13] "[36mGET /api/upload?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 304 -
+2023-10-11 23:15:02,858 - INFO -  * Detected change in '/Users/srinivasvaddi/Desktop/desktop/blog-repos/flaskProject/app.py', reloading
+2023-10-11 23:15:02,936 - INFO -  * Restarting with stat
+2023-10-11 23:15:03,198 - WARNING -  * Debugger is active!
+2023-10-11 23:15:03,203 - INFO -  * Debugger PIN: 191-810-091
+2023-10-11 23:17:08,678 - INFO -  * Detected change in '/Users/srinivasvaddi/Desktop/desktop/blog-repos/flaskProject/app.py', reloading
+2023-10-11 23:17:08,755 - INFO -  * Restarting with stat
+2023-10-11 23:17:27,958 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:2583
+ * Running on http://192.168.1.122:2583
+2023-10-11 23:17:27,958 - INFO - [33mPress CTRL+C to quit[0m
+2023-10-11 23:17:27,959 - INFO -  * Restarting with stat
+2023-10-11 23:17:28,163 - WARNING -  * Debugger is active!
+2023-10-11 23:17:28,169 - INFO -  * Debugger PIN: 191-810-091
+2023-10-11 23:18:27,912 - INFO -  * Detected change in '/Users/srinivasvaddi/Desktop/desktop/blog-repos/flaskProject/app.py', reloading
+2023-10-11 23:18:27,986 - INFO -  * Restarting with stat
+2023-10-11 23:18:28,249 - WARNING -  * Debugger is active!
+2023-10-11 23:18:28,254 - INFO -  * Debugger PIN: 191-810-091
+2023-10-11 23:18:36,399 - INFO - 127.0.0.1 - - [11/Oct/2023 23:18:36] "[35m[1mPOST /api/upload?id=test2 HTTP/1.1[0m" 500 -
+2023-10-11 23:18:47,518 - INFO -  * Detected change in '/Users/srinivasvaddi/Desktop/desktop/blog-repos/flaskProject/app.py', reloading
+2023-10-11 23:18:47,567 - INFO -  * Restarting with stat
+2023-10-11 23:18:47,800 - WARNING -  * Debugger is active!
+2023-10-11 23:18:47,804 - INFO -  * Debugger PIN: 191-810-091
+2023-10-11 23:19:10,113 - INFO -  * Detected change in '/Users/srinivasvaddi/Desktop/desktop/blog-repos/flaskProject/app.py', reloading
+2023-10-11 23:19:10,179 - INFO -  * Restarting with stat
+2023-10-11 23:19:10,483 - WARNING -  * Debugger is active!
+2023-10-11 23:19:10,488 - INFO -  * Debugger PIN: 191-810-091
+2023-10-11 23:19:12,946 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:2583
+ * Running on http://192.168.1.122:2583
+2023-10-11 23:19:12,946 - INFO - [33mPress CTRL+C to quit[0m
+2023-10-11 23:19:12,946 - INFO -  * Restarting with stat
+2023-10-11 23:19:13,151 - WARNING -  * Debugger is active!
+2023-10-11 23:19:13,155 - INFO -  * Debugger PIN: 191-810-091
+2023-10-11 23:19:16,796 - INFO - 127.0.0.1 - - [11/Oct/2023 23:19:16] "POST /api/upload?id=test2 HTTP/1.1" 200 -
+2023-10-11 23:19:22,485 - INFO - 127.0.0.1 - - [11/Oct/2023 23:19:22] "GET /api/upload?id=test2 HTTP/1.1" 200 -
+2023-10-11 23:19:33,430 - INFO -  * Detected change in '/Users/srinivasvaddi/Desktop/desktop/blog-repos/flaskProject/app.py', reloading
+2023-10-11 23:19:33,501 - INFO -  * Restarting with stat
+2023-10-11 23:19:33,769 - WARNING -  * Debugger is active!
+2023-10-11 23:19:33,774 - INFO -  * Debugger PIN: 191-810-091
