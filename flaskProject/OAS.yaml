@@ -1,17 +1,151 @@
 openapi: 3.0.0
 info:
-  title: File Comparison API
-  description: This API allows users to upload files and compare their differences.
+  title: Your API Title
+  description: Your API Description
   version: 1.0.0
 servers:
-  - url: https://example.com/api
+  - url: http://localhost:5000  # Update with your actual server URL
 paths:
-  /upload:
+  /teams:
     post:
-      summary: Upload a file
-      description: Accepts a file and saves it to the database.
+      summary: Create a new team
+      operationId: createTeam
       requestBody:
-        required: true
+        description: Team data to be created
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Team'
+      responses:
+        '201':
+          description: Team created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Team'
+              example:
+                id: 1
+                name: "Team 1"
+                domains: "example.com"
+        '409':
+          description: Team with the same name or domains already exists
+    get:
+      summary: List all teams
+      operationId: listTeams
+      responses:
+        '200':
+          description: List of teams
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Team'
+              example:
+                - id: 1
+                  name: "Team 1"
+                  domains: "example.com"
+  /teams/{team_id}:
+    get:
+      summary: Get a specific team by ID
+      operationId: getTeam
+      parameters:
+        - name: team_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Team found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Team'
+              example:
+                id: 1
+                name: "Team 1"
+                domains: "example.com"
+        '404':
+          description: Team not found
+          content:
+            application/json:
+              example:
+                error: "Team not found"
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              example:
+                error: "Internal Server Error"
+    put:
+      summary: Update a team by ID
+      operationId: updateTeam
+      parameters:
+        - name: team_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        description: Team data to be updated
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Team'
+      responses:
+        '200':
+          description: Team updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Team'
+              example:
+                id: 1
+                name: "Updated Team 1"
+                domains: "updated-example.com"
+        '404':
+          description: Team not found
+          content:
+            application/json:
+              example:
+                error: "Team not found"
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              example:
+                error: "Internal Server Error"
+    delete:
+      summary: Delete a team by ID
+      operationId: deleteTeam
+      parameters:
+        - name: team_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Team deleted
+        '404':
+          description: Team not found
+          content:
+            application/json:
+              example:
+                error: "Team not found"
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              example:
+                error: "Internal Server Error"
+  /files:
+    post:
+      summary: Create a new file
+      operationId: createFile
+      requestBody:
+        description: File data to be created
         content:
           multipart/form-data:
             schema:
@@ -20,63 +154,396 @@ paths:
                 file:
                   type: string
                   format: binary
-                  description: The file to be uploaded.
-                metadata:
-                  type: object
-                  description: The JSON body metadata for the file.
       responses:
         '201':
-          description: File uploaded successfully.
-          headers:
-            Location:
-              schema:
-                type: string
-              description: The URL of the uploaded file.
+          description: File created
+          content:
+            application/json:
+              example:
+                message: "File created successfully"
+        '409':
+          description: File with the same name already exists in the project
+          content:
+            application/json:
+              example:
+                error: "File with the same name already exists"
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              example:
+                error: "Internal Server Error"
+    get:
+      summary: List all files
+      operationId: listFiles
+      responses:
+        '200':
+          description: List of files
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  file_id:
-                    type: string
-                    format: uuid
-                    description: The unique identifier of the file in the database.
-        '400':
-          description: Bad request. The file or metadata is invalid or missing.
-        '500':
-          description: Internal server error. The file could not be saved to the database.
-  /differences:
+                type: array
+                items:
+                  $ref: '#/components/schemas/File'
+              example:
+                - id: 1
+                  file_name: "example.txt"
+                  project_id: 1
+                  upload_date: "2023-10-12T10:00:00Z"
+                  domain: "example.com"
+                  file_size: "1 MB"
+                  file_description: "This is an example file"
+  /files/{file_id}:
     get:
-      summary: Compare three files
-      description: Accepts three file ids and returns the markers where the files are different.
+      summary: Get a specific file by ID
+      operationId: getFile
       parameters:
-        - name: files
-          in: query
+        - name: file_id
+          in: path
           required: true
           schema:
-            type: string
-            pattern: '^[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}(,[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}){2}$'
-          description: The comma-separated list of three file ids to be compared.
+            type: integer
       responses:
         '200':
-          description: Files compared successfully.
-          headers:
-            Content-Disposition:
-              schema:
-                type: string
-              description: The header that indicates the filename of the CSV result.
+          description: File found
           content:
-            text/csv:
+            application/json:
               schema:
-                type: string
-                example: |
-                  File1,File2,File3,Difference
-                  Hello,Hello,Hello,No difference
-                  World,World,Word,Different in File3 at position 5
-              description: The CSV result of the file comparison.
-        '400':
-          description: Bad request. The files parameter is invalid or missing.
+                $ref: '#/components/schemas/File'
+              example:
+                id: 1
+                file_name: "example.txt"
+                project_id: 1
+                upload_date: "2023-10-12T10:00:00Z"
+                domain: "example.com"
+                file_size: "1 MB"
+                file_description: "This is an example file"
         '404':
-          description: Not found. One or more of the file ids does not exist in the database.
+          description: File not found
+          content:
+            application/json:
+              example:
+                error: "File not found"
         '500':
-          description: Internal server error. The files could not be compared or the result could not be saved to the database.
+          description: Internal Server Error
+          content:
+            application/json:
+              example:
+                error: "Internal Server Error"
+    put:
+      summary: Update a file by ID
+      operationId: updateFile
+      parameters:
+        - name: file_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        description: File data to be updated
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/File'
+      responses:
+        '200':
+          description: File updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/File'
+              example:
+                id: 1
+                file_name: "Updated example.txt"
+                project_id: 1
+                upload_date: "2023-10-12T10:00:00Z"
+                domain: "updated-example.com"
+                file_size: "2 MB"
+                file_description: "This is an updated example file"
+        '404':
+          description: File not found
+          content:
+            application/json:
+              example:
+                error: "File not found"
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              example:
+                error: "Internal Server Error"
+    delete:
+      summary: Delete a file by ID
+      operationId: deleteFile
+      parameters:
+        - name: file_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: File deleted
+        '404':
+          description: File not found
+          content:
+            application/json:
+              example:
+                error: "File not found"
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              example:
+                error: "Internal Server Error"
+  /projects:
+    post:
+      summary: Create a new project
+      operationId: createProject
+      requestBody:
+        description: Project data to be created
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Project'
+      responses:
+        '201':
+          description: Project created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+              example:
+                id: 1
+                project_code: "PROJ-123"
+                team_id: 1
+                name: "Example Project"
+                start_date: "2023-10-15"
+                end_date: "2023-12-31"
+                status: "In Progress"
+        '409':
+          description: Project with the same code already exists
+          content:
+            application/json:
+              example:
+                error: "Project with the same code already exists"
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              example:
+                error: "Internal Server Error"
+    get:
+      summary: List all projects
+      operationId: listProjects
+      responses:
+        '200':
+          description: List of projects
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Project'
+              example:
+                - id: 1
+                  project_code: "PROJ-123"
+                  team_id: 1
+                  name: "Example Project"
+                  start_date: "2023-10-15"
+                  end_date: "2023-12-31"
+                  status: "In Progress"
+  /projects/{project_id}:
+    get:
+      summary: Get a specific project by ID
+      operationId: getProject
+      parameters:
+        - name: project_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Project found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+              example:
+                id: 1
+                project_code: "PROJ-123"
+                team_id: 1
+                name: "Example Project"
+                start_date: "2023-10-15"
+                end_date: "2023-12-31"
+                status: "In Progress"
+        '404':
+          description: Project not found
+          content:
+            application/json:
+              example:
+                error: "Project not found"
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              example:
+                error: "Internal Server Error"
+    put:
+      summary: Update a project by ID
+      operationId: updateProject
+      parameters:
+        - name: project_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        description: Project data to be updated
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Project'
+      responses:
+        '200':
+          description: Project updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Project'
+              example:
+                id: 1
+                project_code: "PROJ-123"
+                team_id: 1
+                name: "Updated Project"
+                start_date: "2023-10-15"
+                end_date: "2023-12-31"
+                status: "In Progress"
+        '404':
+          description: Project not found
+          content:
+            application/json:
+              example:
+                error: "Project not found"
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              example:
+                error: "Internal Server Error"
+    delete:
+      summary: Delete a project by ID
+      operationId: deleteProject
+      parameters:
+        - name: project_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Project deleted
+        '404':
+          description: Project not found
+          content:
+            application/json:
+              example:
+                error: "Project not found"
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              example:
+                error: "Internal Server Error"
+
+components:
+  schemas:
+    Team:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        domains:
+          type: string
+        description:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+      example:
+        id: 1
+        name: "Team 1"
+        domains: "example.com"
+    File:
+      type: object
+      properties:
+        id:
+          type: integer
+        file_name:
+          type: string
+        project_id:
+          type: integer
+        upload_date:
+          type: string
+          format: date-time
+        domain:
+          type: string
+        file_size:
+          type: string
+        file_description:
+          type: string
+        file_content:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+      example:
+        id: 1
+        file_name: "example.txt"
+        project_id: 1
+        upload_date: "2023-10-12T10:00:00Z"
+        domain: "example.com"
+        file_size: "1 MB"
+        file_description: "This is an example file"
+    Project:
+      type: object
+      properties:
+        id:
+          type: integer
+        project_code:
+          type: string
+        team_id:
+          type: integer
+        name:
+          type: string
+        start_date:
+          type: string
+          format: date
+        end_date:
+          type: string
+          format: date
+        status:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+      example:
+        id: 1
+        project_code: "PROJ-123"
+        team_id: 1
+        name: "Example Project"
+        start_date: "2023-10-15"
+        end_date: "2023-12-31"
+        status: "In Progress"
