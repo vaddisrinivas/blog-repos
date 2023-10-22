@@ -76,8 +76,6 @@ export default function ShortenedURL(props) {
       axios
         .get(`${props.props.api_url}/${id}`)
         .then((response) => {
-          // Map the keys from the response to the keys in your state
-          // Create a JSON object with the desired structure
           const response_mod = response.data;
           const urlInfoData = {
             url: response_mod.original_url,
