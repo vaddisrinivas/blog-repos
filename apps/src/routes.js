@@ -11,8 +11,8 @@ export const cards = [{
     title: "Python in Browser",
     description: "Run Python code in Browser",
     image: "https://i.imgur.com/5q6Qv9V.png",
-    link: "/python-in-notion",
-    act: ()=>{window.location.href = "/python-in-notion"}
+    link: "/py",
+    act: ()=>{window.location.href = "/py"}
 }, {
     title: "Home",
     description: "Home",
