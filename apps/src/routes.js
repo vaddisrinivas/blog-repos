@@ -8,19 +8,8 @@ const Home = lazy(() => import('./pages/home/Home'));
 const ShortenedURL = lazy(() => import('./pages/url-shortener/ShortenedURL'));
 
 export const cards = [{
-    name: "TheTechCruise",
-    title: "Founder",
-    email: "",
-    phone: "",
-    github: "",
-    linkedin: "",
-    website: "",
-    description: "TheTechCruise",
-    act: ()=>{window.location.href = "https://thetechcruise.com"},
-    image: "https://public-apps-thetechcruise.s3.us-east-2.amazonaws.com/public/document.jpeg"
-},{
-    title: "Python in Notion",
-    description: "Run Python code in Notion",
+    title: "Python in Browser",
+    description: "Run Python code in Browser",
     image: "https://i.imgur.com/5q6Qv9V.png",
     link: "/python-in-notion",
     act: ()=>{window.location.href = "/python-in-notion"}
@@ -39,8 +28,8 @@ export const cards = [{
 
 export  const routes = [
   {
-    path: '/python-in-notion',
-    title: 'Python in Notion',
+    path: '/py',
+    title: 'Python in Browser',
     element: <PythonInNotion />,
     exact: true,
     showInDrawer: true,
