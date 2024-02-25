@@ -1,5 +1,5 @@
 FROM public.ecr.aws/lambda/python:latest
-RUN pip install redis
+RUN pip install -r requirements.txt
 WORKDIR ${LAMBDA_TASK_ROOT}
-COPY pageIds.py .
-CMD [ "pageIds.main" ]
+COPY pynotion.py .
+CMD [ "pynotion.main" ]

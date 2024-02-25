@@ -7,9 +7,10 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Typography from '@mui/material/Typography';
 import { decompressFromEncodedURIComponent, compressToEncodedURIComponent } from 'lz-string';
 import 'prismjs/themes/prism.css';
-import CodeEditor from './CodeEditor';
-import OutputDisplay from './OutputDisplay';
+import CodeEditor from './CodeEditor'; // Ensure you have this component
+import OutputDisplay from './OutputDisplay'; // Ensure you have this component
 import Snackbar from '@mui/material/Snackbar';
+
 const runScript = async () => {
   const pyodide = await window.loadPyodide();
   return pyodide;
@@ -17,70 +18,114 @@ const runScript = async () => {
 
 export default function PythonInNotion() {
   const searchParams = new URLSearchParams(window.location.search);
-  // console.log(searchParams.toString());
-  const hasOutput = searchParams.get('o')!== undefined ? searchParams.get('o') : '';
-  const hasCode = searchParams.get('c') !==  undefined? searchParams.get('c') : '';
-  const needsPython = searchParams.get('p') !== undefined? true : false;
+  if (searchParams.get('m')){
+
+  }
+  const hasOutput = searchParams.get('o') !== undefined ? searchParams.get('o') : '';
+  const hasCode = searchParams.get('c') !== undefined ? searchParams.get('c') : '';
+  const needsPython = searchParams.get('p') !== undefined;
   const [generateLink, setGenerateLink] = useState(false);
 
   const isIframe = window.location !== window.parent.location;
   const [runPython, setRunsPython] = useState(false);
-  console.log(hasCode, hasOutput, needsPython,generateLink,isIframe,runPython);
   const [code, setCode] = useState(
-    hasCode !==null
-      ? decompressFromEncodedURIComponent(hasCode)
-      : `def hello(): \n return "Hello world"\nhello()`
+    hasCode ? decompressFromEncodedURIComponent(hasCode) : `def hello():\n    return "Hello world"\nhello()`
   );
   const [codeOutput, setCodeOutput] = useState(
-    hasOutput !==null ? decompressFromEncodedURIComponent(searchParams.get('o')) : ''
+    hasOutput ? decompressFromEncodedURIComponent(hasOutput) : ''
   );
-  const [pyodide, setPyodide] = useState('');
+  const [pyodide, setPyodide] = useState(null);
   const [touched, setTouched] = useState(false);
   const label = 'Make it runnable when shared';
-  const setOp = () => {
-    try {
-      const op = pyodide.runPython(code);
-      // console.log(op);
-      setCodeOutput(op);
-    } catch (error) {
-      console.error(error);
-      // console.log('Error evaluating Python code. See console for details.' + error);
-      setCodeOutput(error);
-    }
-  };
+
   useEffect(() => {
-    if (pyodide !== '' && !touched) {
-      setTouched(true);
-    }
     async function main() {
-      if (needsPython && pyodide === '') {
-        setPyodide(await runScript());
-        localStorage.setItem('loadPyodide', true);
+      if (needsPython && !pyodide) {
+        const loadedPyodide = await runScript();
+        setPyodide(loadedPyodide);
+        setTouched(true);
       }
     }
     main();
-  }, [pyodide]);
+  }, [needsPython, pyodide]);
 
-  const handleChangePy = async () => {
+  const handleChangePy = () => {
     setRunsPython(!runPython);
   };
 
+  function extractPackages(code) {
+    const regex = /^(?:import|from) (\S+)(?: import \S+)?/gm;
+    let match;
+    const packages = new Set();
+    while ((match = regex.exec(code)) !== null) {
+      if (match.index === regex.lastIndex) {
+        regex.lastIndex++;
+      }
+      packages.add(match[1].split('.')[0]);
+    }
+    return Array.from(packages);
+  }
+
+  const adaptiveCompress = (input) => {
+    let compressed = compressToEncodedURIComponent(input);
+    let count = 1;
+    while (true) {
+      const furtherCompressed = compressToEncodedURIComponent(compressed);
+      if (furtherCompressed.length < compressed.length * 0.9) {
+        compressed = furtherCompressed;
+        count++;
+      } else {
+        break;
+      }
+    }
+    return { compressed, count };
+  };
+
   const generate = (code, codeOutput) => {
-    // console.log('clicked generate link');
-    // console.log(code);
-    // console.log(codeOutput);
-    const c = compressToEncodedURIComponent(code.toString());
-    const o = compressToEncodedURIComponent(codeOutput.toString());
-    // console.log(decompressFromEncodedURIComponent(c));
-    // console.log(decompressFromEncodedURIComponent(o));
+    const { compressed: compressedCode, count: codeCompressionCount } = adaptiveCompress(code);
+    const { compressed: compressedOutput, count: outputCompressionCount } = adaptiveCompress(codeOutput);
     const urlParams = [
-      `c=${c}`,
-      `o=${o}`,
+      `c=${compressedCode}`,
+      `o=${compressedOutput}`,
+      `cc=${codeCompressionCount}`,
+      `oc=${outputCompressionCount}`,
       runPython ? 'p' : '',
     ];
-    // console.log(urlParams.join('&'));
     return '?' + urlParams.join('&');
   };
+
+  const setOp = async () => {
+    if (!pyodide) return;
+
+    const originalConsoleLog = console.log;
+    let capturedLogs = '';
+    const neededPackages = extractPackages(code);
+    for (const pkg of neededPackages) {
+      try {
+        await pyodide.loadPackage(pkg);
+      } catch (error) {
+        console.error(`Error loading package ${pkg}:`, error);
+      }
+    }
+
+    console.log = (...args) => {
+      capturedLogs += args.join(' ') + '\n';
+      originalConsoleLog.apply(console, args);
+    };
+
+    try {
+      setCodeOutput('');
+      const op = await pyodide.runPython(code);
+      const additionalOutput = op!==undefined ? op.toString() : '';
+      setCodeOutput(capturedLogs + additionalOutput);
+    } catch (error) {
+      console.error(error);
+      setCodeOutput(prev => prev + '\nError: ' + error.toString());
+    } finally {
+      console.log = originalConsoleLog;
+    }
+  };
+
 
   return (
     <>
@@ -98,7 +143,7 @@ export default function PythonInNotion() {
           }}
           variant="h3"
         >
-           'Python in your browser!'
+          Python in your browser!
         </Typography>
       )}
       <div
@@ -130,22 +175,40 @@ export default function PythonInNotion() {
           </Button>
         )}
         <br></br>
-        {codeOutput !== undefined && !codeOutput.toString().includes('data:image/png') && (
+        {codeOutput !== undefined && (
           <OutputDisplay codeOutput={codeOutput} />
         )}
-        
-        {!isIframe && (<><br></br><FormControlLabel
-          control={<Checkbox checked={runPython} onChange={handleChangePy} name="antoine" />}
-          label={label} /></>)}
+        {!isIframe && (
+          <>
+            <br></br>
+            <FormControlLabel
+              control={<Checkbox checked={runPython} onChange={handleChangePy} name="antoine" />}
+              label={label}
+            />
+          </>
+        )}
         <br></br>
         {!isIframe && (
           <Button
-            onClick={() => { navigator.clipboard.writeText(window.location.protocol + "//" + window.location.host + "/" + generate(code,codeOutput)); setGenerateLink(true); }}
+            onClick={() => {
+              navigator.clipboard.writeText(
+                window.location.href + '/'+
+                  generate(code, codeOutput)
+              );
+              setGenerateLink(true);
+            }}
           >
             Get Link!
           </Button>
         )}
-        <Snackbar open={generateLink} autoHideDuration={6000} onClose={()=>{setGenerateLink(false)}} message="Link generated and copied to clipboard"/>
+        <Snackbar
+          open={generateLink}
+          autoHideDuration={6000}
+          onClose={() => {
+            setGenerateLink(false);
+          }}
+          message="Link generated and copied to clipboard"
+        />
       </div>
     </>
   );

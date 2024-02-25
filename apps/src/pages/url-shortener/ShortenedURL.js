@@ -92,12 +92,12 @@ export default function ShortenedURL(props) {
   }, [id]);
 
   return (
-    <Grid container justifyContent="center" alignItems="center" style={{ height: "100vh" }}>
+    <Grid container justifyContent="center" alignItems="center">
       <Grid item xs={12} sm={8} md={6} lg={4}>
         <Typography variant="h4" style={{ marginBottom: "20px" }}>
           URL Shortener
         </Typography>
-        <CountdownRedirect url={urlInfo?.url} expiry={urlInfo?.expiry} error={error} />
+        {urlInfo && <CountdownRedirect url={urlInfo?.url} expiry={urlInfo?.expiry} error={error} />}
       </Grid>
     </Grid>
   );
