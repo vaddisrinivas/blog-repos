@@ -16,22 +16,21 @@ def adaptive_compress(input_string):
             break
     return compressed, count
 
-def main(event, context):
-    payload = json.loads(event['body'])
-    code, code_output, run_python = payload.get('code'), payload.get('output'), payload.get('run_python', False)
+def main(payload, context):
+    code, code_output, run_python = payload.get('code'), payload.get('output'), payload.get('python', False)
     logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
     compressed_code, code_compression_count = adaptive_compress(code) if code else (None, 0)
     compressed_output, output_compression_count = adaptive_compress(code_output) if code_output else (None, 0)
     url_params = []
     if compressed_code:
-        url_params.append(f'code={compressed_code}')
+        url_params.append(f'c={compressed_code}')
         url_params.append(f'cc={code_compression_count}')
     if compressed_output:
-        url_params.append(f'output={compressed_output}')
+        url_params.append(f'o={compressed_output}')
         url_params.append(f'oc={output_compression_count}')
     if run_python:
-        url_params.append('run_python=True')
+        url_params.append('p')
    
     body_string = os.environ.get('APPS_TTC_PY') + '?' + ('&'.join(url_params) if url_params else '')
     logging.info(f"Generated URL: {body_string}")
