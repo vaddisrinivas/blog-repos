@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, TextField, Typography, Grid, Box } from "@mui/material";
+import { Button, TextField, Typography, Grid, Box, Switch } from "@mui/material";
 import axios from "axios";
 
 const ShortenedURL = ({ url, expiry }) => {
@@ -22,6 +22,14 @@ const URLShortener = (props) => {
   const [shortenedURL, setShortenedURL] = useState(null);
   const [expiryDays, setExpiryDays] = useState(1); // Default to 1 day
   const [error, setError] = useState(null);
+  const [toggleSwitch, setToggleSwitch] = useState(false);
+  const [password, setPassword] = useState("");
+  const handleToggleChange = (e) => {
+    setToggleSwitch(e.target.checked);
+  }
+  const handlePasswordChange = (e) => {
+    setPassword(e.target.value);
+  }
 
   const handleChange = (e) => {
     setInput(e.target.value);
@@ -30,9 +38,7 @@ const URLShortener = (props) => {
   const handleExpiryChange = (e) => {
     const days = e.target.value;
     // Limit the range to 1-3 days
-    if (days >= 1 && days <= 3) {
       setExpiryDays(days);
-    }
   };
 
   const handleSubmit = () => {
@@ -52,7 +58,7 @@ const URLShortener = (props) => {
     axios
       .post(
         props.props.api_url,
-        { original_url: input, expiry: expiryInSeconds },
+        { original_url: input, expiry: expiryInSeconds,password:password },
         { headers: { "Content-Type": "application/json" } }
       )
       .then((response) => {
@@ -98,7 +104,29 @@ const URLShortener = (props) => {
             onChange={handleExpiryChange}
             fullWidth
           />
+        </Grid>    
+        {/* add a switch which says admin */}
+        <Grid item xs={3}>
+          <Typography variant="p">Admin</Typography>
+          <Switch
+            checked={toggleSwitch}
+            onChange={handleToggleChange}
+            inputProps={{ "aria-label": "controlled" }}
+          />
         </Grid>
+
+          {/* if that switch is toggled then show a password field */}
+        {toggleSwitch && (
+          <Grid item xs={10}>
+            <TextField
+              label="Password"
+              type="password"
+              value={password}
+              onChange={handlePasswordChange}
+              fullWidth
+            />
+          </Grid>
+        )}
         <Grid item xs={12}>
           <Button variant="contained" color="primary" onClick={handleSubmit}>
             Shorten
